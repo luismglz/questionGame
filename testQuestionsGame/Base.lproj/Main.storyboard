@@ -71,14 +71,14 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aSu-rt-97u">
-                                <rect key="frame" x="20" y="92" width="59" height="21"/>
+                                <rect key="frame" x="20" y="89" width="78" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Player 2" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HlQ-GQ-PSj">
-                                <rect key="frame" x="333" y="92" width="61" height="21"/>
+                                <rect key="frame" x="310" y="89" width="84" height="28"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -95,6 +95,8 @@
                         <outlet property="btnPlay" destination="Qif-8z-1nJ" id="fpj-L6-CTq"/>
                         <outlet property="imgLifeSpanPlayer1" destination="waR-GO-fls" id="eRW-QU-6Ra"/>
                         <outlet property="imgLifeSpanPlayer2" destination="bl7-vC-LbM" id="zGo-O0-gRB"/>
+                        <outlet property="player1Label" destination="aSu-rt-97u" id="dUA-29-qNg"/>
+                        <outlet property="player2Label" destination="HlQ-GQ-PSj" id="wrp-SQ-0sx"/>
                         <outlet property="questionLabel" destination="36a-as-vZc" id="g2Q-G1-B6e"/>
                         <outlet property="questionRelatedImage" destination="hyy-F1-9A6" id="E1T-EI-rOk"/>
                     </connections>

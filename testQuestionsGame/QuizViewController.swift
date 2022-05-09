@@ -25,6 +25,10 @@ class ViewController: UIViewController {
     }
     
     
+    @IBOutlet weak var player1Label: UILabel!
+    
+    @IBOutlet weak var player2Label: UILabel!
+    
     @IBOutlet weak var imgLifeSpanPlayer1: UIImageView!
     
     @IBOutlet weak var imgLifeSpanPlayer2: UIImageView!
@@ -58,6 +62,10 @@ class ViewController: UIViewController {
     var previouslyUsedQuestionsPlayer1: [Int] = []
     
     var previouslyUsedQuestionsPlayer2: [Int] = []
+    
+    var currentPlayerFlag = 0
+    
+    //var isPlayer1 = true
     
     let quiz = [
         ["Coca-Cola was the first soft drink in the space", "True", "https://tentulogo.com/wp-content/uploads/2017/06/cocacola-logo.jpg"],
@@ -99,10 +107,12 @@ class ViewController: UIViewController {
     
     func generateQuestion() -> Int{
         
+        
         if (previouslyUsedQuestionsPlayer1.count == quiz.count) {
             previouslyUsedQuestionsPlayer1 = []
         }
         
+        //check used questions
         var randomIndexOfQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: quiz.count)
         
         while (previouslyUsedQuestionsPlayer1.contains(randomIndexOfQuestion)) {
@@ -134,6 +144,10 @@ class ViewController: UIViewController {
     
     
     func displayQuestion(){
+        validateUser()
+        currentPlayerFlag += 1
+        
+        
         let randomIndex = generateQuestion()
         currentQuestion = quiz[randomIndex][0]
         answerOfGeneratedQuestion = quiz[randomIndex][1]
@@ -144,6 +158,20 @@ class ViewController: UIViewController {
         
         questionLabel.text = currentQuestion
         
+    }
+    
+    func isPlayer2()-> Bool{
+        currentPlayerFlag % 2 == 0 ? false : true
+    }
+    
+    func validateUser(){
+        if(isPlayer2()){
+            player1Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+            player2Label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        }else{
+            player2Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+            player1Label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        }
     }
     
     
