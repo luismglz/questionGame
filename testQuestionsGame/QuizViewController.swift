@@ -47,7 +47,9 @@ class ViewController: UIViewController {
     
     var userAnswer = ""
     
-    var score = 0
+    var scorePlayer1 = 0
+    
+    var scorePlayer2 = 0
     
     var generatedQuestion = ""
     
@@ -64,6 +66,8 @@ class ViewController: UIViewController {
     var previouslyUsedQuestionsPlayer2: [Int] = []
     
     var currentPlayerFlag = 0
+    
+    var isPlayer2Flag = false
     
     //var isPlayer1 = true
     
@@ -129,23 +133,52 @@ class ViewController: UIViewController {
         let selectedAnswer = sender.currentTitle!
         
         if (validateAnswer(to: selectedAnswer, correctAnswer: answerOfGeneratedQuestion)) {
-            score += 1
-            print("nice!")
-            print("\(score)")
+            if isPlayer2Flag{
+                scorePlayer2 += 1
+            } else{
+                scorePlayer1 += 1
+            }
         } else {
-            print("Fail")
-            totalLifesPLayer1 -= 1
-            totalLifesPLayer2 -= 1
+            if isPlayer2Flag{
+                totalLifesPLayer2 -= 1
+            } else{
+                totalLifesPLayer1 -= 1
+            }
         }
         
         
         displayQuestion()
     }
     
+    func checkWinner(){
+        if(scorePlayer1 >= 5){
+            displayAlertMessage(title: "Player 1 is Winner", alertDescription: "")
+            restartGame()
+        }else if(scorePlayer2 >= 5){
+            displayAlertMessage(title: "Player 2 is Winner", alertDescription: "")
+            restartGame()
+        }
+    }
+    
     
     func displayQuestion(){
-        validateUser()
-        currentPlayerFlag += 1
+        
+        if(totalLifesPLayer1 != 0 && totalLifesPLayer2 != 0 ){
+            validateUser()
+            currentPlayerFlag += 1
+        }else if(totalLifesPLayer1 == 0){
+            isPlayer2Flag = true
+            currentPlayerFlag = 3
+            validateUser()
+        }
+        else if(totalLifesPLayer2 == 0){
+            isPlayer2Flag = false
+            currentPlayerFlag = 2
+            validateUser()
+        }
+        
+        checkWinner()
+        
         
         
         let randomIndex = generateQuestion()
@@ -166,9 +199,12 @@ class ViewController: UIViewController {
     
     func validateUser(){
         if(isPlayer2()){
+            isPlayer2Flag = true
             player1Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             player2Label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+            
         }else{
+            isPlayer2Flag = false
             player2Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             player1Label.font = UIFont.systemFont(ofSize: 17, weight: .bold)
         }
@@ -200,6 +236,19 @@ class ViewController: UIViewController {
         btnIsFalse.isHidden = false
         questionLabel.isHidden = false
         questionRelatedImage.isHidden = false
+    }
+    
+    func restartGame(){
+        currentPlayerFlag = 0
+        scorePlayer1 = 0
+        scorePlayer2 = 0
+        totalLifesPLayer1 = 3
+        totalLifesPLayer2 = 3
+        player1Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        player2Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        isPlayer2Flag = false
+        hideElements()
+        btnPlay.isHidden = false
     }
     
     
