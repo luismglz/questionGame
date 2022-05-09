@@ -8,6 +8,7 @@
 
 
 import UIKit
+import GameKit
 
 class ViewController: UIViewController {
     
@@ -38,6 +39,8 @@ class ViewController: UIViewController {
     
     var currentAnswer = ""
     
+    var currentQuestion : String = ""
+    
     var userAnswer = ""
     
     var score = 0
@@ -51,6 +54,10 @@ class ViewController: UIViewController {
     @IBOutlet weak var btnPlay: UIButton!
     
     var url = URL(string: "")
+    
+    var previouslyUsedQuestionsPlayer1: [Int] = []
+    
+    var previouslyUsedQuestionsPlayer2: [Int] = []
     
     let quiz = [
         ["Coca-Cola was the first soft drink in the space", "True", "https://tentulogo.com/wp-content/uploads/2017/06/cocacola-logo.jpg"],
@@ -78,95 +85,71 @@ class ViewController: UIViewController {
         ["The Titanic sank in 1912", "True", "https://nypost.com/wp-content/uploads/sites/2/2017/01/170103-titanic-ship-feature.jpg?quality=75&strip=all"]
     ]
     
+    let choises = ["True", "False"]
+    
     
     
     @IBAction func onPlay(_ sender: Any) {
         btnPlay.isHidden = true
         displayElements();
-        var question = generateQuestion();
+        displayQuestion()
         
     }
     
     
-    func generateQuestion() -> (Int, String){
-        let randomIndexOfQuestion = Int.random(in: 0...quiz.count - 1)
-        let randomQuestion = quiz[randomIndexOfQuestion][0]
-        questionLabel.text = randomQuestion
-        url = URL(string: quiz[randomIndexOfQuestion][2])!
-        let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-        questionRelatedImage.image = UIImage(data: data!)
-        return (randomIndexOfQuestion, randomQuestion)
+    func generateQuestion() -> Int{
+        
+        if (previouslyUsedQuestionsPlayer1.count == quiz.count) {
+            previouslyUsedQuestionsPlayer1 = []
+        }
+        
+        var randomIndexOfQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: quiz.count)
+        
+        while (previouslyUsedQuestionsPlayer1.contains(randomIndexOfQuestion)) {
+            randomIndexOfQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: quiz.count)
+        }
+        previouslyUsedQuestionsPlayer1.append(randomIndexOfQuestion)
+        
+        return randomIndexOfQuestion
+        
     }
     
     
-    @IBAction func play(_ sender: UIButton) {
-        //print(sender.currentTitle)
-        //var randomIndexOfQuestion = generateQuestion()
-        generateQuestion();
-        let randomIndexOfQuestion = generateQuestion().0
-        print(randomIndexOfQuestion)
-        //var randomQuestion = generateQuestion().1
+    @IBAction func checkAnswer(_ sender: UIButton) {
+        let selectedAnswer = sender.currentTitle!
         
-        selectedAnswer = ""
-        selectedAnswer = String(sender.currentTitle!)
-        
-        //quiz[Int.random(in: 0...quiz.count - 1)][1]
-        generatedQuestion = ""
-        generatedQuestion = quiz[randomIndexOfQuestion][0]
-        answerOfGeneratedQuestion = String(quiz[randomIndexOfQuestion][1])
-        
-        
-        //answer user
-        
-         print("Question: \(quiz[randomIndexOfQuestion][0])")
-         print("Answer: \(quiz[randomIndexOfQuestion][1])")
-        
-        checkAnswer(
-            question: generatedQuestion,
-            answer: answerOfGeneratedQuestion,
-            selectedAnswer: selectedAnswer,
-            generatedIndex: randomIndexOfQuestion
-        );
-        
-        
-        
-        /*if userAnswer == currentAnswer{
-            print(userAnswer, currentAnswer)
-                score += 1
-            
-        }*/
-        //current answer
-    //quiz[aleatoria][1]
-       /* if answerUser == currentAnswer{
-            currentAnswer{
-                score += 1
-        alert(Ganaste)
-            }
-        }*/
-    }
-    
-    func checkAnswer(question: String, answer: String, selectedAnswer: String, generatedIndex: Int){
-        print("Correct Answer \(answer)")
-        print("Answer selected \(selectedAnswer)")
-        print("Index \(generatedIndex)")
-        print("question '\(quiz[generatedIndex][0])' Ans:\(quiz[generatedIndex][1])")
-        
-        
-        if(answer == selectedAnswer){
+        if (validateAnswer(to: selectedAnswer, correctAnswer: answerOfGeneratedQuestion)) {
             score += 1
             print("nice!")
             print("\(score)")
-        }else{
+        } else {
+            print("Fail")
             totalLifesPLayer1 -= 1
             totalLifesPLayer2 -= 1
-            print("fail!")
         }
+        
+        
+        displayQuestion()
+    }
+    
+    
+    func displayQuestion(){
+        let randomIndex = generateQuestion()
+        currentQuestion = quiz[randomIndex][0]
+        answerOfGeneratedQuestion = quiz[randomIndex][1]
+        
+        url = URL(string: quiz[randomIndex][2])!
+        let data = try? Data(contentsOf: url!)
+        questionRelatedImage.image = UIImage(data: data!)
+        
+        questionLabel.text = currentQuestion
+        
     }
     
     
     
-    func checkIfGameIsCompleted(){
-        
+    func validateAnswer(to selectedAnswer: String, correctAnswer: String)->Bool{
+        return(selectedAnswer == correctAnswer);
     }
     
     
@@ -174,7 +157,6 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideElements()
-       // questionLabel.text = quiz[Int.random(in: 0...3)][0]
     }
     
     
@@ -196,13 +178,13 @@ class ViewController: UIViewController {
     
     func displayAlertMessage(title: String, alertDescription: String){
         let alert = UIAlertController(title: title, message: alertDescription, preferredStyle: UIAlertController.Style.alert);
-    
+        
         alert.addAction(UIAlertAction(title: "Ok", style: UIAlertAction.Style.default, handler: nil))
         self.present(alert, animated: true, completion: nil)
         
     }
     
-
-
+    
+    
 }
 
