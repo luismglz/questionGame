@@ -10,19 +10,29 @@
 import UIKit
 import GameKit
 
-class ViewController: UIViewController {
+class QuizViewController: UIViewController {
     
-    var totalLifesPLayer1 = 3{
+    var lifesMaxPerLevel = Int()
+    var scoreMaxPerLevel = Int()
+    
+
+    
+ 
+    
+    
+    var totalLifesPlayer1Easy = Int(){
         didSet {
-            imgLifeSpanPlayer1.image = UIImage(named: "lifes\(totalLifesPLayer1)")
+            imgLifeSpanPlayer1.image = UIImage(named: "lifes\(totalLifesPlayer1Easy)")
         }
     }
     
-    var totalLifesPLayer2 = 3{
+    var totalLifesPlayer2Easy = Int(){
         didSet {
-            imgLifeSpanPlayer2.image = UIImage(named: "lifes\(totalLifesPLayer2)")
+            imgLifeSpanPlayer2.image = UIImage(named: "lifes\(totalLifesPlayer2Easy)")
         }
     }
+    
+    
     
     
     @IBOutlet weak var player1Label: UILabel!
@@ -68,6 +78,9 @@ class ViewController: UIViewController {
     var currentPlayerFlag = 0
     
     var isPlayer2Flag = false
+    
+    
+    var selectedLevel = Int();
     
     //var isPlayer1 = true
     
@@ -140,9 +153,9 @@ class ViewController: UIViewController {
             }
         } else {
             if isPlayer2Flag{
-                totalLifesPLayer2 -= 1
+                totalLifesPlayer2Easy -= 1
             } else{
-                totalLifesPLayer1 -= 1
+                totalLifesPlayer1Easy -= 1
             }
         }
         
@@ -151,10 +164,10 @@ class ViewController: UIViewController {
     }
     
     func checkWinner(){
-        if(scorePlayer1 >= 5){
+        if(scorePlayer1 >= scoreMaxPerLevel){
             displayAlertMessage(title: "Player 1 is Winner", alertDescription: "")
             restartGame()
-        }else if(scorePlayer2 >= 5){
+        }else if(scorePlayer2 >= scoreMaxPerLevel){
             displayAlertMessage(title: "Player 2 is Winner", alertDescription: "")
             restartGame()
         }
@@ -163,15 +176,15 @@ class ViewController: UIViewController {
     
     func displayQuestion(){
         
-        if(totalLifesPLayer1 != 0 && totalLifesPLayer2 != 0 ){
+        if(totalLifesPlayer1Easy != 0 && totalLifesPlayer2Easy != 0 ){
             validateUser()
             currentPlayerFlag += 1
-        }else if(totalLifesPLayer1 == 0){
+        }else if(totalLifesPlayer1Easy == 0){
             isPlayer2Flag = true
             currentPlayerFlag = 3
             validateUser()
         }
-        else if(totalLifesPLayer2 == 0){
+        else if(totalLifesPlayer2Easy == 0){
             isPlayer2Flag = false
             currentPlayerFlag = 2
             validateUser()
@@ -220,7 +233,11 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        totalLifesPlayer1Easy = self.lifesMaxPerLevel
+        totalLifesPlayer2Easy = self.lifesMaxPerLevel
         hideElements()
+        print(totalLifesPlayer1Easy)
+        print(scoreMaxPerLevel)
     }
     
     
@@ -239,16 +256,18 @@ class ViewController: UIViewController {
     }
     
     func restartGame(){
+        
         currentPlayerFlag = 0
         scorePlayer1 = 0
         scorePlayer2 = 0
-        totalLifesPLayer1 = 3
-        totalLifesPLayer2 = 3
+        totalLifesPlayer1Easy = 3
+        totalLifesPlayer2Easy = 3
         player1Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         player2Label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         isPlayer2Flag = false
         hideElements()
         btnPlay.isHidden = false
+        performSegue(withIdentifier: "quizGameToDifficultySegue", sender: nil)
     }
     
     

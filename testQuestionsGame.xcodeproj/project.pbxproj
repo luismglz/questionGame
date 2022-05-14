@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D6AED989282F7820009795D1 /* LevelSelectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AED988282F7820009795D1 /* LevelSelectionViewController.swift */; };
 		D98BE2212821FD42003AA867 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98BE2202821FD42003AA867 /* AppDelegate.swift */; };
 		D98BE2232821FD42003AA867 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98BE2222821FD42003AA867 /* SceneDelegate.swift */; };
 		D98BE2252821FD42003AA867 /* QuizViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D98BE2242821FD42003AA867 /* QuizViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D6AED988282F7820009795D1 /* LevelSelectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectionViewController.swift; sourceTree = "<group>"; };
 		D98BE21D2821FD42003AA867 /* testQuestionsGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testQuestionsGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D98BE2202821FD42003AA867 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D98BE2222821FD42003AA867 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				D98BE2292821FD43003AA867 /* Assets.xcassets */,
 				D98BE22B2821FD43003AA867 /* LaunchScreen.storyboard */,
 				D98BE22E2821FD43003AA867 /* Info.plist */,
+				D6AED988282F7820009795D1 /* LevelSelectionViewController.swift */,
 			);
 			path = testQuestionsGame;
 			sourceTree = "<group>";
@@ -140,6 +143,7 @@
 			files = (
 				D98BE2252821FD42003AA867 /* QuizViewController.swift in Sources */,
 				D98BE2212821FD42003AA867 /* AppDelegate.swift in Sources */,
+				D6AED989282F7820009795D1 /* LevelSelectionViewController.swift in Sources */,
 				D98BE2232821FD42003AA867 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
