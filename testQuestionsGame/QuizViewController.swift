@@ -198,12 +198,22 @@ class QuizViewController: UIViewController {
         currentQuestion = quiz[randomIndex][0]
         answerOfGeneratedQuestion = quiz[randomIndex][1]
         
-        url = URL(string: quiz[randomIndex][2])!
-        let data = try? Data(contentsOf: url!)
-        questionRelatedImage.image = UIImage(data: data!)
+       // url = URL(string: quiz[randomIndex][2])
         
-        questionLabel.text = currentQuestion
+        guard let url = URL(string: quiz[randomIndex][2]) else {
+                    return
+                }
         
+        DispatchQueue.main.async { [weak self] in
+            if let data = try? Data(contentsOf: url){
+                if let loadedImage = UIImage(data: data){
+                    self?.questionRelatedImage.image = loadedImage
+                    self?.questionLabel.text = self?.currentQuestion
+                }else{
+                    self?.questionRelatedImage.image = UIImage(data: try! Data(contentsOf: URL(string: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Image_not_available.png/640px-Image_not_available.png")!))
+                }
+            }
+        }
     }
     
     func isPlayer2()-> Bool{
